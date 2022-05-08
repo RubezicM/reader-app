@@ -1,7 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import useDebounce from '../../hooks/Debouncer'
 import { BooksContext } from '../../context/BooksContext'
+
 import Spinner from '../Spinner/Spinner'
+
+import SearchItem from './SearchItem'
 
 const SearchResults = () => {
 
@@ -23,8 +26,14 @@ const SearchResults = () => {
 
       { Object.keys(searchResults).length > 0 &&
         searchResults.docs.map((book)=>{
+          console.log(book)
+
+
           return (
-            <p>{book.title}</p>
+            <SearchItem
+              key={book._version}
+              book={book}
+            />
           )
         })
       }

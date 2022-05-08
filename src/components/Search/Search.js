@@ -6,8 +6,9 @@ import useDebounce from '../../hooks/Debouncer'
 const MyComponent = () => {
   const { dispatch } = useContext(BooksContext)
   const [term, setTerm] = useState('')
-  const debouncedValue = useDebounce(term, 1000)
+  const debouncedValue = useDebounce(term, 450)
   const [isSearching, setIsSearching] = useState(false)
+  const [booksFound, setBooksFound] = useState({})
 
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const MyComponent = () => {
       // resetting search display
       dispatch({ type: 'REMOVE_SEARCH_RESULTS' })
 
-      const results = await searchForBooks(debouncedValue)
+      const results = await searchForBooks(debouncedValue, 1)
       dispatch({ type: 'SET_SEARCH_RESULTS', payload: results })
     }
 
@@ -38,8 +39,10 @@ const MyComponent = () => {
 
   return (
     <form onSubmit={handleSearch}>
-      <input type="text" placeholder="Search for a book" name="search" onKeyUp={handleSearch}/>
-      <button type="submit">Submit</button>
+      <input type="text"
+             placeholder="Search for a book name"
+             name="search"
+             onKeyUp={handleSearch}/>
     </form>
   );
 };
