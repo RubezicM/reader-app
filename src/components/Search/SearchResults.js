@@ -1,44 +1,39 @@
-import React, { useState, useContext, useEffect } from 'react';
-import useDebounce from '../../hooks/Debouncer'
-import { BooksContext } from '../../context/BooksContext'
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../Spinner/Spinner'
 
 import SearchItem from './SearchItem'
 
 const SearchResults = () => {
 
-  const { searchResults, isLoading } = useContext(BooksContext)
-  const [term, setTerm] = useState('')
-  const debouncedValue = useDebounce(term, 1000)
+  const { searchResults, loading } = useSelector((state) => state.search)
 
-
-  useEffect(()=>{
-    console.log('useeffet',searchResults)
-  },[searchResults])
+  useEffect(() => {
+    console.log('useeffet', searchResults)
+  }, [searchResults])
 
   return (
     <>
       {
-        isLoading &&
+        loading &&
         <Spinner/>
       }
 
-      { Object.keys(searchResults).length > 0 &&
-        searchResults.docs.map((book)=>{
-          console.log(book)
+      {Object.keys(searchResults).length > 0 &&
+      searchResults.docs.map((book) => {
+        console.log(book)
 
 
-          return (
-            <SearchItem
-              key={book._version}
-              book={book}
-            />
-          )
-        })
+        return (
+          <SearchItem
+            key={book._version}
+            book={book}
+          />
+        )
+      })
       }
     </>
-  );
-};
+  )
+}
 
 export default SearchResults;

@@ -1,41 +1,38 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { searchForBooks } from '../../helpers/fetchHelpers'
-import { BooksContext } from '../../context/BooksContext'
+import React, { useEffect, useState } from 'react';
+
 import useDebounce from '../../hooks/Debouncer'
 
-const MyComponent = () => {
-  const { dispatch } = useContext(BooksContext)
+// redux
+import { useDispatch } from 'react-redux'
+import { setSearchResults } from '../../redux/actions/searchActions'
+
+const Search = () => {
+
+  const dispatch = useDispatch()
+
   const [term, setTerm] = useState('')
   const debouncedValue = useDebounce(term, 450)
   const [isSearching, setIsSearching] = useState(false)
-  const [booksFound, setBooksFound] = useState({})
+
 
 
   useEffect(() => {
 
     if (!isSearching) return
-
     async function fetchBooks () {
-      // setting loading screen
-      dispatch({ type: 'SET_LOADING' })
-
-      // resetting search display
-      dispatch({ type: 'REMOVE_SEARCH_RESULTS' })
-
-      const results = await searchForBooks(debouncedValue, 1)
-      dispatch({ type: 'SET_SEARCH_RESULTS', payload: results })
+      await dispatch(setSearchResults(debouncedValue,1))
     }
 
     fetchBooks()
 
   }, [debouncedValue])
 
+
+
   const handleSearch = (e) => {
-
-    setTerm(e.target.value)
     setIsSearching(true)
+    setTerm(e.target.value)
   }
-
 
   return (
     <form onSubmit={handleSearch}>
@@ -47,4 +44,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default Search;

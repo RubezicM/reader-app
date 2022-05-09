@@ -1,9 +1,10 @@
+import { useContext, useEffect } from 'react'
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home'
 import Lists from './pages/Lists'
 import ListDetails from './components/List/ListDetails'
-import { BooksProvider } from './context/BooksContext'
+import { BooksProvider, BooksContext } from './context/BooksContext'
 
 function App () {
   return (
