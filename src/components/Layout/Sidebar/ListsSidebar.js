@@ -1,49 +1,38 @@
-import React, { useContext, useEffect, useState } from 'react'
-import useLocalStorage from '../../../hooks/useLocalStorage'
-import { BooksContext } from '../../../context/BooksContext'
+import React from 'react'
+import {Link} from "react-router-dom";
+import { useSelector } from 'react-redux'
+import AddNewListButton from '../../List/AddNewListButton'
+
+
+const linkStyle = {
+  display: 'block',
+  textDecoration: 'underline',
+  color: 'blue',
+  marginBottom: '15px',
+  fontSize: '13px'
+}
+
+const addNewListStyle = {
+  marginTop: '45px'
+}
 
 const ListsSidebar = () => {
-  const { myLists, dispatch } = useContext(BooksContext)
-  const initialLists = [
-    {title:'To read',books:[],numOfBooks:0},
-    {title:'Done reading',books:[],numOfBooks:0}
-  ]
-
-  const [lists, setLists] = useLocalStorage('lists',initialLists)
-
-  // useEffect(()=>{
-  //   setLists(myLists)
-  // },[myLists])
-
-  const addNewList = async () => {
-    const obj = {
-      title: 'meh',
-      books: [],
-      numOfBooks: 0
-    }
-
-    setLists(()=>{
-       return [...lists, {...obj}]
-    })
-
-  }
+  const { myLists } = useSelector((state)=> state.lists)
 
   return (
     <div>
-      {lists && lists.map((list)=>{
+      {myLists && myLists.map((list)=>{
         return (
-          <p>{list.title}/<span>{list.numOfBooks}</span></p>
+          <Link to={`/lists/${list.id}`} style={linkStyle} key={list.id}>
+            {list.title}<span>({list.numOfBooks !== 0 ? list.numOfBooks: 0 })</span>
+          </Link>
         )
       })}
-      {/*{Object.keys(lists2).length > 0 && lists2.map((list)=>{*/}
-      {/*  return (*/}
-      {/*    <p>2nd list {list.title}</p>*/}
-      {/*  )*/}
-      {/*})}*/}
-      <button onClick={addNewList}>Add new list</button>
+      <AddNewListButton opened={true} style={addNewListStyle}/>
     </div>
 
   );
 };
 
-export default ListsSidebar;
+
+export default ListsSidebar

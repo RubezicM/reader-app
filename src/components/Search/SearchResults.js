@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux'
 import Spinner from '../Spinner/Spinner'
+import styled from 'styled-components'
+import BookItem from '../Book/BookItem'
 
-import SearchItem from './SearchItem'
+const Results = styled.div`
+  margin-top:25px;
+  min-height: 400px;
+  padding-bottom: 40px;
+`
 
 const SearchResults = () => {
 
   const { searchResults, loading } = useSelector((state) => state.search)
 
-  useEffect(() => {
-    console.log('useeffet', searchResults)
-  }, [searchResults])
-
   return (
-    <>
+    <Results>
       {
         loading &&
         <Spinner/>
@@ -21,18 +23,15 @@ const SearchResults = () => {
 
       {Object.keys(searchResults).length > 0 &&
       searchResults.docs.map((book) => {
-        console.log(book)
-
-
         return (
-          <SearchItem
-            key={book._version}
+          <BookItem
+            key={book._version_}
             book={book}
           />
         )
       })
       }
-    </>
+    </Results>
   )
 }
 

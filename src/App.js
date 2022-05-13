@@ -1,24 +1,19 @@
-import { useContext, useEffect } from 'react'
-import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home'
-import Lists from './pages/Lists'
 import ListDetails from './components/List/ListDetails'
-import { BooksProvider, BooksContext } from './context/BooksContext'
-
+import { Layout } from './components/Layout/Layout';
 function App () {
   return (
-    <BooksProvider>
       <div className="App">
         <Router>
+          <Layout>
           <Routes>
             <Route exact path="/" element={<Home/>}/>
-            <Route exact path="/lists" element={<Lists/>}/>
-            <Route exact path="/lists/:listName" element={<ListDetails/>}/>
+            <Route exact path="/lists/:listId" element={<ListDetails/>}/>
           </Routes>
+          </Layout>
         </Router>
       </div>
-    </BooksProvider>
   );
 }
 

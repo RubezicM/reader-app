@@ -1,11 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-import { BooksContext } from '../../../context/BooksContext'
+import React from 'react';
 import ListsSidebar from './ListsSidebar'
+import styled from 'styled-components'
+
+const Title = styled.h3`
+  margin-bottom: 20px;
+  font-size: 25px;
+`
+
 const Sidebar = () => {
 
   return (
     <>
-      <p>Sidebar</p>
+      <Title>My shelves</Title>
       <ListsSidebar/>
     </>
   );
